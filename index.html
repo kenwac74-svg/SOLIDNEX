@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
-:root{--d:"Pretendard Variable",Pretendard,system-ui,sans-serif;--m:"IBM Plex Mono",monospace;
+:root{--d:"Pretendard Variable",Pretendard,system-ui,sans-serif;--m:"IBM Plex Mono","Pretendard Variable",Pretendard,system-ui,sans-serif;
 --ink:#0f2a43;--deep:#0b2035;--bg:#f7f8fa;--band:#eceff3;--line:#dce1e7;--muted:#4e5f70;--faint:#65727f;--acc:#e71645;--onink:#ffffff}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--d);-webkit-font-smoothing:antialiased}
@@ -30,7 +30,7 @@ h3{font-size:21px;font-weight:600;letter-spacing:-.025em;line-height:1.2}
 .sub{font-size:17px;line-height:1.6;color:var(--muted);max-width:620px;margin:0;font-weight:400;word-break:keep-all;text-wrap:pretty}
 .echo,.detail{font-weight:400;letter-spacing:-.02em;color:var(--faint);text-wrap:balance;word-break:keep-all}
 html[data-lang="en"] .echo{display:none}
-.logo{display:block;width:auto;max-width:100%;align-self:flex-start;height:22px;object-fit:contain;object-position:left center}
+.logo{display:block;width:auto;max-width:100%;align-self:center;height:22px;object-fit:contain;object-position:left center}
 header.nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:20px;position:relative}
 .navlinks{display:flex;gap:26px}
@@ -81,8 +81,8 @@ section{padding:100px 0;border-top:1px solid var(--line)}
 .person .ph img.anon{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;opacity:.9}
 .person .meta{padding:18px;display:flex;flex-direction:column;gap:5px}
 .more{margin-top:10px;color:var(--faint);display:flex;align-items:center;gap:5px}
-.bio{position:absolute;left:0;right:0;top:0;min-height:100%;background:#fff;border:1px solid var(--ink);padding:16px;z-index:6;display:flex;flex-direction:column;gap:9px;opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .2s cubic-bezier(.4,0,.2,1),transform .2s cubic-bezier(.4,0,.2,1)}
-.person:hover .bio,.person:focus-within .bio,.person.open .bio{opacity:1;visibility:visible;transform:none}
+.bio{position:relative;background:#fff;border:1px solid var(--ink);padding:16px;z-index:1;display:none;flex-direction:column;gap:9px;opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .2s cubic-bezier(.4,0,.2,1),transform .2s cubic-bezier(.4,0,.2,1)}
+.person.open .bio{display:flex;opacity:1;visibility:visible;transform:none}
 .bio ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px}
 .bio li{font-size:12px;line-height:1.42;color:var(--muted);word-break:keep-all;padding-left:10px;position:relative}
 .bio li:before{content:"";position:absolute;left:0;top:6px;width:3px;height:3px;border-radius:50%;background:var(--acc)}
@@ -115,6 +115,35 @@ h2,.hero h1{max-width:none}
 .people{grid-template-columns:repeat(2,1fr)}
 .person .meta{padding:14px}
 #contact{padding:64px 0 40px!important}
+}
+/* Readable line lengths and resilient small-screen layout. */
+body{word-break:keep-all;overflow-wrap:anywhere}
+h2{max-width:16em;line-height:1.25}
+.hero h1{max-width:14em;text-wrap:balance;line-height:1.18}
+.hero .wrap{width:100%}
+.hero .sub{max-width:42em;text-wrap:pretty}
+.head2>div,.head2>h2{flex:1 1 480px}
+.head2>.sub{flex:1 1 300px}
+.cell,.person,.srow>div{min-width:0}
+.people{align-items:start}
+.more{font:inherit;font-size:14px;font-weight:600;min-height:44px;padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);cursor:pointer;text-align:left}
+.more::after{content:"+";margin-left:auto}
+.more[aria-expanded="true"]::after{content:"−"}
+.bio li{font-size:14px;line-height:1.65}
+.bio{border-width:1px 0 0;transform:none}
+.mono{line-height:1.6}
+@media(max-width:640px){
+  .hero h1{font-size:clamp(32px,8.5vw,48px);line-height:1.25}
+  h2{font-size:clamp(27px,7vw,36px)}
+  .sub{font-size:16px;line-height:1.75}
+  .people{grid-template-columns:1fr}
+  .person .ph{aspect-ratio:4/3}
+  .person .meta{padding:20px}
+  .grid4.vals{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cell .big{font-size:clamp(24px,6.5vw,38px);overflow-wrap:anywhere}
+  html[data-lang="en"] .grid4.vals{grid-template-columns:1fr}
+  .srow{grid-template-columns:minmax(0,1fr)}
+  .srow>.mono{grid-row:2}
 }
 </style>
 </head>
@@ -167,23 +196,23 @@ h2,.hero h1{max-width:none}
 <section id="members"><div class="wrap">
 <div class="head2"><h2 data-en="Members">멤버</h2><p class="sub" style="max-width:400px" data-en="A team with deep expertise and global experience.">탁월한 전문성과 글로벌 경험을 갖춘 팀이 함께합니다.</p></div>
 <div class="people">
-<div class="person"><div class="ph"><img class="pt" src="https://www.solidnex.net/assets/imgs/SehoKim.png" alt="김세호"><img class="ico" src="https://www.solidnex.net/assets/imgs/Ceo_icon.webp" alt=""></div><div class="meta"><span class="mono">CEO &amp; CMO</span><h3 data-en="Seho Kim">김세호</h3><span class="echo" style="font-size:13px">SEHO KIM</span><span class="sub" style="font-size:13px;margin-top:6px" data-en="Peking University — Economics">북경대학교 경제학과</span><span class="mono more" data-en="Career +">주요 약력 +</span></div>
+<div class="person"><div class="ph"><img class="pt" src="https://www.solidnex.net/assets/imgs/SehoKim.png" alt="김세호"><img class="ico" src="https://www.solidnex.net/assets/imgs/Ceo_icon.webp" alt=""></div><div class="meta"><span class="mono">CEO &amp; CMO</span><h3 data-en="Seho Kim">김세호</h3><span class="echo" style="font-size:13px">SEHO KIM</span><span class="sub" style="font-size:13px;margin-top:6px" data-en="Peking University — Economics">북경대학교 경제학과</span><button class="more" type="button" data-en="View career">주요 약력 보기</button></div>
 <div class="bio"><span class="mono" data-en="Career">주요 약력</span><ul><li data-en="CJ Global Marketing &amp; Strategy">CJ 글로벌 마케팅 &amp; 전략</li><li data-en="HMG Shanghai Office Director">한미 마케팅 그룹 상하이 지사장</li><li data-en="MBC Business Director">MBC 사업 본부장</li><li data-en="ESG Financial Project Advisor">ESG 금융 프로젝트 자문가</li><li data-en="Assemble Protocol Advisor">Assemble 프로토콜 자문가</li><li data-en="KOBEA STO Exchange Project Director">KOBEA STO 거래소 프로젝트 책임자</li></ul></div></div>
-<div class="person"><div class="ph"><img class="pt" src="https://www.solidnex.net/assets/imgs/KenChoung.png" alt="정웅모"><img class="ico" src="https://www.solidnex.net/assets/imgs/Coo_icon.webp" alt=""></div><div class="meta"><span class="mono">COO &amp; CTO</span><h3 data-en="Ken Choung">정웅모</h3><span class="echo" style="font-size:13px">CHOUNG KEN</span><span class="sub" style="font-size:13px;margin-top:6px" data-en="Assist AI–Blockchain MBA, Master's degree">Assist AI-블록체인 MBA 석사</span><span class="mono more" data-en="Career +">주요 약력 +</span></div>
+<div class="person"><div class="ph"><img class="pt" src="https://www.solidnex.net/assets/imgs/KenChoung.png" alt="정웅모"><img class="ico" src="https://www.solidnex.net/assets/imgs/Coo_icon.webp" alt=""></div><div class="meta"><span class="mono">COO &amp; CTO</span><h3 data-en="Ken Choung">정웅모</h3><span class="echo" style="font-size:13px">CHOUNG KEN</span><span class="sub" style="font-size:13px;margin-top:6px" data-en="Assist AI–Blockchain MBA, Master's degree">Assist AI-블록체인 MBA 석사</span><button class="more" type="button" data-en="View career">주요 약력 보기</button></div>
 <div class="bio"><span class="mono" data-en="Career">주요 약력</span><ul><li data-en="Qroad, Tech-Biz Managing Director">큐로드, 테크비즈 부문장</li><li data-en="Davox Tech, COO / VP">다복스테크, COO / 부사장</li><li data-en="Netmarble, Sales Director (IGS)">넷마블 IGS, 영업본부 이사</li><li data-en="Neowiz, SO Team Lead">네오위즈, SO 팀장</li><li data-en="CJ E&amp;M, Planning Lead">CJ E&amp;M, 운영기획팀 팀장</li><li data-en="SK Imedia, Biz Mgmt. Lead">SK Imedia, 사업관리팀 팀장</li><li data-en="WEBZEN, Game Ops Lead">웹젠, 게임운영팀 팀장</li><li data-en="NCSoft, Lineage2 Part Lead">NCSoft, 리니지2 파트장</li><li data-en="NCSoft Thailand, Game Ops Lead">NCSoft, 태국 지사 게임운영팀 팀장</li></ul></div></div>
-<div class="person"><div class="ph"><img class="pt" src="https://www.solidnex.net/assets/imgs/HyungheeLee.png" alt="이형희"><img class="ico" src="https://www.solidnex.net/assets/imgs/Chro_icon.webp" alt=""></div><div class="meta"><span class="mono">CHRO</span><h3 data-en="Hyunghee Lee">이형희</h3><span class="echo" style="font-size:13px">HYUNGHEE LEE</span><span class="sub" style="font-size:13px;margin-top:6px" data-en="USW — Chemistry">USW 화학과</span><span class="mono more" data-en="Career +">주요 약력 +</span></div>
+<div class="person"><div class="ph"><img class="pt" src="https://www.solidnex.net/assets/imgs/HyungheeLee.png" alt="이형희"><img class="ico" src="https://www.solidnex.net/assets/imgs/Chro_icon.webp" alt=""></div><div class="meta"><span class="mono">CHRO</span><h3 data-en="Hyunghee Lee">이형희</h3><span class="echo" style="font-size:13px">HYUNGHEE LEE</span><span class="sub" style="font-size:13px;margin-top:6px" data-en="USW — Chemistry">USW 화학과</span><button class="more" type="button" data-en="View career">주요 약력 보기</button></div>
 <div class="bio"><span class="mono" data-en="Career">주요 약력</span><ul><li data-en="Managing Director, NEXT LEVEL HOLDINGS Co., Ltd.">넥스트레벨홀딩스 이사</li><li data-en="CEO, FREENERY Co., Ltd.">프리너리 대표이사</li><li data-en="Managing Director, GRAPHENEUP Co., Ltd.">그래핀업 이사</li><li data-en="CHRO, ESMT Co., Ltd.">ESMT 최고인사책임자</li></ul></div></div>
-<div class="person"><div class="ph"><img class="pt" src="https://www.solidnex.net/assets/imgs/JaeilShin.png" alt="신재일"><img class="ico" src="https://www.solidnex.net/assets/imgs/Cbo_icon.webp" alt=""></div><div class="meta"><span class="mono">CBO</span><h3 data-en="Jaeil Shin">신재일</h3><span class="echo" style="font-size:13px">JAEIL SHIN</span><span class="sub" style="font-size:13px;margin-top:6px" data-en="—">—</span><span class="mono more" data-en="Career +">주요 약력 +</span></div>
-<div class="bio"><span class="mono" data-en="Career">주요 약력</span><ul><li data-en="CEO, Shin Jin Farm Corporation">농업회사법인 신진팜 대표</li><li data-en="CEO, Withyou Holdings Co., Ltd.">(주)위드유 홀딩스 대표</li><li data-en="Director, Cocky Buffalo">커키 버플로 대표이사</li><li data-en="CEO, DANAVI Travel Agency">DANAVI Travel Agency 대표이사</li><li data-en="CEO, EEUL Entertainment">EEUL 엔텔테이사먼트 대표이사</li><li data-en="CEO, Sejong City Urban Development Co.">세종시 (주)시도개발 대표이사</li></ul></div></div>
-<div class="person"><div class="ph"><img class="pt" src="https://www.solidnex.net/assets/imgs/DonghwanHam.png" alt="함동환"><img class="ico" src="https://www.solidnex.net/assets/imgs/Cco_icon.png" alt=""></div><div class="meta"><span class="mono">CCO</span><h3 data-en="Donghwan Ham">함동환</h3><span class="echo" style="font-size:13px">DONGHWAN HAM</span><span class="sub" style="font-size:13px;margin-top:6px" data-en="Seoul National University">서울대학교</span><span class="mono more" data-en="Career +">주요 약력 +</span></div>
-<div class="bio"><span class="mono" data-en="Career">주요 약력</span><ul><li data-en="Attorney at law">변호사</li><li data-en="Certified Investment Manager">공인 토자자산 운용사</li><li data-en="Licensed real estate agent">공인 부동산 중개사</li><li data-en="Mergers and acquisitions">인수합병(M&amp;A)</li><li data-en="Fund investments">펀드 토자</li><li data-en="Executive and auditor for investment firms">토자회사 임원 및 감사 활동</li></ul></div></div>
+<div class="person"><div class="ph"><img class="pt" src="https://www.solidnex.net/assets/imgs/JaeilShin.png" alt="신재일"><img class="ico" src="https://www.solidnex.net/assets/imgs/Cbo_icon.webp" alt=""></div><div class="meta"><span class="mono">CBO</span><h3 data-en="Jaeil Shin">신재일</h3><span class="echo" style="font-size:13px">JAEIL SHIN</span><span class="sub" style="font-size:13px;margin-top:6px" data-en="—">—</span><button class="more" type="button" data-en="View career">주요 약력 보기</button></div>
+<div class="bio"><span class="mono" data-en="Career">주요 약력</span><ul><li data-en="CEO, Shin Jin Farm Corporation">농업회사법인 신진팜 대표</li><li data-en="CEO, Withyou Holdings Co., Ltd.">(주)위드유 홀딩스 대표</li><li data-en="Director, Cocky Buffalo">커키 버플로 대표이사</li><li data-en="CEO, DANAVI Travel Agency">DANAVI Travel Agency 대표이사</li><li data-en="CEO, EEUL Entertainment">EEUL 엔터테인먼트 대표이사</li><li data-en="CEO, Sejong City Urban Development Co.">세종시 (주)시도개발 대표이사</li></ul></div></div>
+<div class="person"><div class="ph"><img class="pt" src="https://www.solidnex.net/assets/imgs/DonghwanHam.png" alt="함동환"><img class="ico" src="https://www.solidnex.net/assets/imgs/Cco_icon.png" alt=""></div><div class="meta"><span class="mono">CCO</span><h3 data-en="Donghwan Ham">함동환</h3><span class="echo" style="font-size:13px">DONGHWAN HAM</span><span class="sub" style="font-size:13px;margin-top:6px" data-en="Seoul National University">서울대학교</span><button class="more" type="button" data-en="View career">주요 약력 보기</button></div>
+<div class="bio"><span class="mono" data-en="Career">주요 약력</span><ul><li data-en="Attorney at law">변호사</li><li data-en="Certified Investment Manager">공인 투자자산 운용사</li><li data-en="Licensed real estate agent">공인 부동산 중개사</li><li data-en="Mergers and acquisitions">인수합병(M&amp;A)</li><li data-en="Fund investments">펀드 투자</li><li data-en="Executive and auditor for investment firms">투자회사 임원 및 감사 활동</li></ul></div></div>
 </div>
 
 <div class="head2" style="margin-top:64px"><h2 data-en="Advisors">자문 위원</h2><p class="sub" style="max-width:400px" data-en="Strategic and technical advisors supporting Solidnex">전략과 기술 분야의 고문진이 함께합니다</p></div>
 <div class="people">
-<div class="person"><div class="ph"><img class="pt" src="https://www.solidnex.net/assets/imgs/Advisory.png" alt="김상연"></div><div class="meta"><span class="mono" data-en="Strategy Advisor">전략 자문</span><h3 data-en="Aiden Kim">김상연</h3><span class="echo" style="font-size:13px">AIDEN KIM</span><span class="sub" style="font-size:13px;margin-top:6px" data-en="Seoul National University">서울대학교</span><span class="mono more" data-en="Career +">주요 약력 +</span></div>
+<div class="person"><div class="ph"><img class="pt" src="https://www.solidnex.net/assets/imgs/Advisory.png" alt="김상연"></div><div class="meta"><span class="mono" data-en="Strategy Advisor">전략 자문</span><h3 data-en="Aiden Kim">김상연</h3><span class="echo" style="font-size:13px">AIDEN KIM</span><span class="sub" style="font-size:13px;margin-top:6px" data-en="Seoul National University">서울대학교</span><button class="more" type="button" data-en="View career">주요 약력 보기</button></div>
 <div class="bio"><span class="mono" data-en="Career">주요 약력</span><ul><li data-en="B.A./M.S. in Mechanical Engineering, SNU">서울대학교 기계공학 학사/석사</li><li data-en="Global MBA, SNU">서울대학교 글로벌 MBA</li><li data-en="CEO, SevenAM">세븐에이엠 대표이사</li><li data-en="R&amp;D Engineer (Ship Structures), Hanwha Ocean">한화오션 조선 구조 분야 R&amp;D 엔지니어</li><li data-en="COO, NANUM – AI &amp; Mobility">나눔 최고운영책임자 - AI &amp; 머신러닝(모빌리티)</li><li data-en="COO / CSO, Crypto Exchange">암호화폐 거래소 최고운영책임자 / 최고전략책임자</li><li data-en="Advisor, Wplus Wallet">Wplus 지갑 자문위원</li></ul></div></div>
-<div class="person"><div class="ph"><img class="pt" src="https://www.solidnex.net/assets/imgs/Advisory.png" alt="안동현"></div><div class="meta"><span class="mono" data-en="Tech Advisor">기술 자문</span><h3 data-en="Anthony Ahn">안동현</h3><span class="echo" style="font-size:13px">ANTHONY AHN</span><span class="sub" style="font-size:13px;margin-top:6px" data-en="Seoul National University">서울대학교</span><span class="mono more" data-en="Career +">주요 약력 +</span></div>
+<div class="person"><div class="ph"><img class="pt" src="https://www.solidnex.net/assets/imgs/Advisory.png" alt="안동현"></div><div class="meta"><span class="mono" data-en="Tech Advisor">기술 자문</span><h3 data-en="Anthony Ahn">안동현</h3><span class="echo" style="font-size:13px">ANTHONY AHN</span><span class="sub" style="font-size:13px;margin-top:6px" data-en="Seoul National University">서울대학교</span><button class="more" type="button" data-en="View career">주요 약력 보기</button></div>
 <div class="bio"><span class="mono" data-en="Career">주요 약력</span><ul><li data-en="CEO, Dreamfurnace Corp.">드림퍼네스 대표이사</li><li data-en="CTO, Galaxy Corporation">갤럭시코퍼레이션 CTO</li><li data-en="CTO, Linger Studio Corp.">링거스튜디오 CTO</li><li data-en="Dev. Head, MXN Commerce Co., Ltd.">MXN 커머스 코리아 개발팀장</li><li data-en="CEO, Hashnonce Co., Ltd.">해시넌스 대표이사</li><li data-en="Co-Founder / COO, Alamutu Co., Ltd.">알라무투 공동창업주 / 운영 이사</li><li data-en="CEO, W-Tech Co., Ltd.">더블유테크 대표이사</li><li data-en="Development Director, BTCC Korea Co., Ltd.">BTCC Korea 개발이사</li></ul></div></div>
 </div>
 </div></section>
@@ -191,7 +220,7 @@ h2,.hero h1{max-width:none}
 <section id="roadmap"><div class="wrap">
 <div class="head2"><h2 data-en="Roadmap">로드맵</h2><p class="sub" style="max-width:420px" data-en="Our path to becoming a global consulting and tech group">글로벌 종합 컨설팅 &amp; 테크 그룹으로의 성장 계획</p></div>
 <div>
-<div class="srow"><span class="idx" style="color:var(--acc)">~2026</span><div><h3 data-en="Secure the Korean headquarters base and enter Southeast Asian and Greater China markets">한국 본사 기반 확보 및 동남아/중화권 시장 진출</h3><span class="detail" style="font-size:14px" data-en="Singapore · Vietnam · Thailand · Philippines · Indonesia · Hong Kong">싱가폴 · 베트남 · 태국 · 필리핀 · 인도네시아 · 홍콩</span></div><span class="mono" data-en="Phase 1">1단계</span></div>
+<div class="srow"><span class="idx" style="color:var(--acc)">~2026</span><div><h3 data-en="Secure the Korean headquarters base and enter Southeast Asian and Greater China markets">한국 본사 기반 확보 및 동남아/중화권 시장 진출</h3><span class="detail" style="font-size:14px" data-en="Singapore · Vietnam · Thailand · Philippines · Indonesia · Hong Kong">싱가포르 · 베트남 · 태국 · 필리핀 · 인도네시아 · 홍콩</span></div><span class="mono" data-en="Phase 1">1단계</span></div>
 <div class="srow"><span class="idx">2027~28</span><div><h3 data-en="Establish European and North American offices">유럽 및 북미 지사 설립</h3><span class="detail" style="font-size:14px" data-en="Global strategic partnerships">글로벌 전략 파트너십 체결</span></div><span class="mono" data-en="Phase 2">2단계</span></div>
 <div class="srow"><span class="idx">2029~30</span><div><h3 data-en="Build a global platform service">글로벌 플랫폼 서비스 구축</h3><span class="detail" style="font-size:14px" data-en="AI-based financial solution SaaS · Data-driven consulting automation">AI 기반 금융 솔루션 SaaS · 데이터 기반 컨설팅 자동화</span></div><span class="mono" data-en="Phase 3">3단계</span></div>
 <div class="srow"><span class="idx">2030+</span><div><h3 data-en="Grow into a global consulting and tech group">글로벌 종합 컨설팅 &amp; 테크 그룹으로 도약</h3><span class="detail" style="font-size:14px" data-en="Including an IPO track">상장 추진 포함</span></div><span class="mono" data-en="Phase 4">4단계</span></div>
@@ -215,9 +244,11 @@ h2,.hero h1{max-width:none}
     var open=nav.classList.toggle('open');
     btn.setAttribute('aria-expanded',String(open));
     btn.textContent=open?'\u2715':'\u2630';
+    btn.setAttribute('aria-label',document.documentElement.lang==='en'?(open?'Close menu':'Open menu'):(open?'메뉴 닫기':'메뉴 열기'));
   });
+  nav.addEventListener('keydown',function(e){if(e.key==='Escape'){nav.classList.remove('open');btn.setAttribute('aria-expanded','false');btn.textContent='\u2630';btn.setAttribute('aria-label',document.documentElement.lang==='en'?'Open menu':'메뉴 열기');btn.focus();}});
   nav.querySelectorAll('.navlinks a').forEach(function(a){a.addEventListener('click',function(){
-    nav.classList.remove('open');btn.setAttribute('aria-expanded','false');btn.textContent='\u2630';});});
+    nav.classList.remove('open');btn.setAttribute('aria-expanded','false');btn.textContent='\u2630';btn.setAttribute('aria-label',document.documentElement.lang==='en'?'Open menu':'메뉴 열기');});});
 })();
 
 /* KO / EN — swaps every data-en string and hides the English echo lines */
@@ -227,6 +258,8 @@ h2,.hero h1{max-width:none}
   nodes.forEach(function(el){el.dataset.ko=el.innerHTML;});
   function set(l){
     root.setAttribute('data-lang',l);root.lang=l;
+    var menu=document.querySelector('.menubtn'),open=menu.getAttribute('aria-expanded')==='true';
+    menu.setAttribute('aria-label',l==='en'?(open?'Close menu':'Open menu'):(open?'메뉴 닫기':'메뉴 열기'));
     nodes.forEach(function(el){el.innerHTML=(l==='en')?el.dataset.en:el.dataset.ko;});
     cur.textContent=(l==='en')?'EN':'KO';alt.textContent=(l==='en')?'KO':'EN';
     document.title=(l==='en')?'Solidnex — Global partner connecting the future':'㈜솔리드넥스 | Solidnex — 미래를 연결하는 글로벌 파트너';
@@ -265,16 +298,19 @@ h2,.hero h1{max-width:none}
   window.addEventListener('resize',paint);
 })();
 
-/* Career panel: hover on pointer devices, tap to toggle on touch */
-document.querySelectorAll('.person').forEach(function(p){
-  if(!p.querySelector('.bio'))return;
-  p.setAttribute('tabindex','0');
-  p.addEventListener('click',function(){
-    var was=p.classList.contains('open');
-    document.querySelectorAll('.person.open').forEach(function(o){o.classList.remove('open');});
-    if(!was)p.classList.add('open');
+/* Explicit disclosure works with touch, mouse and keyboard. */
+document.querySelectorAll('.person').forEach(function(p,i){
+  var panel=p.querySelector('.bio'),toggle=p.querySelector('.more');
+  if(!panel||!toggle)return;
+  panel.id='career-'+i;
+  toggle.setAttribute('aria-controls',panel.id);
+  toggle.setAttribute('aria-expanded','false');
+  function close(){p.classList.remove('open');toggle.setAttribute('aria-expanded','false');}
+  toggle.addEventListener('click',function(){
+    var open=p.classList.toggle('open');
+    toggle.setAttribute('aria-expanded',String(open));
   });
-  p.addEventListener('keydown',function(e){if(e.key==='Escape')p.classList.remove('open');});
+  p.addEventListener('keydown',function(e){if(e.key==='Escape'){close();toggle.focus();}});
 });
 
 /* Remote portraits: fall back to a labelled plate if the live site is unreachable */
